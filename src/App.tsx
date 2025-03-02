@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react"
 import { Search } from "./components/search"
-import { MoveServices } from "./services/moveis.service";
+import { MovieServices } from "./services/moveis.service";
 import { DiscoverMoviesResponse, Movie } from "./types/movies.types";
-import { MovieCard } from "./components/movie-card";
+import { MovieCard } from "./components/movie-card/movie-card";
 import { useDebounce } from "react-use";
 import { getTrendingMovie, updateSearchCount } from "./lib/appwrite";
 import { DetailsDialog } from "./components/dialog/details";
+import { MovieCardSkeleton } from "./components/movie-card/skeleton";
 
 
 function App() {
@@ -22,50 +23,51 @@ function App() {
   //by waiting for the to stop typing for 500ms
   useDebounce(() => setDebouncedSearchTerm(searchTerm), 600, [searchTerm])
 
-  function onOpenMovieDetailsDaialog(){
+  function onOpenMovieDetailsDaialog() {
     setIsMovieDetailsDialog(true)
   }
 
-  function onSelectMovie (movie: Movie){
+  function onSelectMovie(movie: Movie) {
     setSelectMovie(movie)
     onOpenMovieDetailsDaialog();
+    updateSearchCount(movie?.original_title!, movie)
   }
 
 
-  function onCloseMovieDetailsDaialog(){
+  function onCloseMovieDetailsDaialog() {
     setIsMovieDetailsDialog(false);
-    setSelectMovie(null)
+    setSelectMovie(null);
+
   }
 
-  const moveServices = new MoveServices();
+  const movieServices = new MovieServices();
 
   async function getPopulrityMovies() {
     setIsLoading(true);
     setErrorMessage('');
     try {
-      const data = await moveServices.list(searchTerm);
+      const data = await movieServices.list(searchTerm);
       setMoviesList(data);
 
-      if(searchTerm && data.results.length > 0) {
+      if (searchTerm && data.results.length > 0) {
         await updateSearchCount(searchTerm, data.results[0])
       }
     } catch (error) {
-      console.error(error); // Verifique se há erros
       setErrorMessage(error.message);
     } finally {
       setIsLoading(false);
     }
   }
 
-  async function getTrendingMovies(){
-      try{
-          const response = await getTrendingMovie();
-            if(!response) return 
+  async function getTrendingMovies() {
+    try {
+      const response = await getTrendingMovie();
+      if (!response) return
 
-          setTrendingMovies(response)
-      }catch(error){
-       console.log(error)
-      }
+      setTrendingMovies(response)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   useEffect(() => {
@@ -92,18 +94,18 @@ function App() {
         {
           trendingMovies.length > 0 && (
             <section className="trending">
-                <h2>Treding Movie</h2>
+              <h2>Treding Movie</h2>
 
-                <ul>
-                  {
-                    trendingMovies.map((movie, index) =>(
-                      <li key={movie.$id}>
-                          <p>{index+1}</p>
-                          <img src={movie.poster_url} alt={movie.title} />
-                      </li>
-                    ))
-                  }
-                </ul>
+              <ul>
+                {
+                  trendingMovies.map((movie, index) => (
+                    <li key={movie?.$id}>
+                      <p>{index + 1}</p>
+                      <img src={movie?.poster_url} alt={movie?.title} />
+                    </li>
+                  ))
+                }
+              </ul>
             </section>
           )
         }
@@ -112,7 +114,14 @@ function App() {
           <h2 >All Movies</h2>
           {
             isLoading ? (
-              <p className="text-white">Loading...</p>
+              <ul>
+                {
+                  Array.from({ length: 10 }).map((_, index) => (
+                    <MovieCardSkeleton key={index} />
+                  ))
+                }
+              </ul>
+
             ) : errorMessage ? (
               <p className="text-rose-500">{errorMessage}</p>
             ) : (
@@ -127,7 +136,12 @@ function App() {
         </section>
       </div>
       {
-          isMovieDetailsDialogOpen && selectMovie && <DetailsDialog movie={selectMovie} onClose={onCloseMovieDetailsDaialog} />
+        isMovieDetailsDialogOpen && selectMovie &&
+        <DetailsDialog
+          movieServices={movieServices}
+          movieId={selectMovie.id}
+          onClose={onCloseMovieDetailsDaialog}
+        />
       }
     </main>
   )

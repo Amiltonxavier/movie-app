@@ -11,16 +11,23 @@
 
   --color-light-100: #cecefb;
   --color-light-200: #a8b5db;
+  --color-light-300: #D6C7FF;
 
   --color-gray-100: #9ca4ab;
 
   --color-dark-100: #0f0d23;
+
+  --color-deep-indigo: #221F3D;
+
+  
 
   --font-dm-sans: DM Sans, sans-serif;
 
   --breakpoint-xs: 480px;
 
   --background-image-hero-pattern: url("/hero-bg.png");
+
+  
 }
 
 @layer base {

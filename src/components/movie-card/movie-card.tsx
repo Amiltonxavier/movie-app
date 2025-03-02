@@ -1,12 +1,16 @@
-import { Movie } from "../types/movies.types"
+import { Movie } from "../../types/movies.types"
 
 interface Props {
     movie: Movie,
     onOpenDetailsDialog: VoidFunction
 }
-export function MovieCard({ onOpenDetailsDialog, movie: { title, id, vote_average, poster_path, release_date, original_language } }: Props) {
+export function MovieCard({ onOpenDetailsDialog, movie: { title, vote_average, poster_path, release_date, original_language } }: Props) {
     return (
-        <button className="movie-card" onClick={onOpenDetailsDialog}>
+        <button
+            className="movie-card cursor-pointer duration-150 transition-transform hover:scale-110"
+            onClick={onOpenDetailsDialog}
+            type="button"
+        >
             <img
                 src={poster_path ?
                     `https://image.tmdb.org/t/p/w500/${poster_path}` : '/no-movie.png'}
@@ -27,7 +31,7 @@ export function MovieCard({ onOpenDetailsDialog, movie: { title, id, vote_averag
 
                     <span>•</span>
                     <p className="year">
-                        {release_date ? release_date.split('-')[0]: 'N/A'}
+                        {release_date ? release_date.split('-')[0] : 'N/A'}
                     </p>
                 </div>
             </div>
