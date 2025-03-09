@@ -66,14 +66,14 @@ export function DetailsDialog({ onClose, movieId, movieServices }: Props) {
         <Dialog onClose={onClose}>
             {isLoadingMovie || !moviesADetails ? <MovieDetailsSkeleton /> : (
                 <div className='text-light-200 flex flex-col gap-8 overflow-auto'>
-                    <div className='flex items-start md:items-center justify-between'>
+                    <div className='flex flex-col space-y-5 md:space-y-0 md:flex-row items-start md:items-center justify-between'>
                         <div>
                             <h4 className='font-bold text-white text-2xl md:text-4xl'>{moviesADetails?.original_title}</h4>
                             <h5>{moviesADetails?.release_date}  <span>•</span>
                                 {getRating(moviesADetails?.adult)} <span>•</span> {humamizeRuntime(moviesADetails?.runtime!)}
                             </h5>
                         </div>
-                        <div className='flex gap-4 flex-col md:flex-row items-center'>
+                        <div className='flex gap-4 flex-col md:flex-row md:items-center'>
                             <div className='px-4 py-[3.5px] rounded-[6px] bg-deep-indigo flex items-center gap-1'>
                                 <img src='/star.svg' alt='star' />
                                 <span className='font-bold text-white'>{moviesADetails?.vote_average} <span className='font-normal text-light-200'>/10{' '}(200)</span></span>
