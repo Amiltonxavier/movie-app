@@ -1,3 +1,4 @@
+import { X } from "lucide-react";
 import { ReactNode, useEffect } from "react";
 
 interface Props {
@@ -22,6 +23,12 @@ export function Dialog({ children, onClose }: Props) {
         className="w-full max-w-[1200px] bg-[#0F0D23] p-8 md:p-12 rounded-2xl shadow-lg my-20"
         onClick={(e) => e.stopPropagation()}
       >
+        <div className="flex items-center mb-4">
+        <button title="close" onClick={onClose} className="ml-auto cursor-pointer">
+          <X className="size-8 text-gray-100" />
+        </button>
+        </div>
+        
         {children}
       </div>
     </div>
