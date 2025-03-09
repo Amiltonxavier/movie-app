@@ -1,5 +1,6 @@
 import { Client, Databases, ID, Query } from "appwrite";
 import { Movie } from "../types/movies.types";
+import { toast } from "sonner";
 
 const DATABASE_ID = import.meta.env.VITE_APPWRITE_DATABASE_ID;
 const COLLECTION_ID = import.meta.env.VITE_APPWRITE_COLLECTION_ID;
@@ -21,7 +22,7 @@ export const getTrendingMovie = async() => {
 
         return response.documents
     }catch(error) {
-        console.log(error);
+        toast.error(`${error}`);
     }
 }
 

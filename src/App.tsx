@@ -7,6 +7,7 @@ import { useDebounce } from "react-use";
 import { getTrendingMovie, updateSearchCount } from "./lib/appwrite";
 import { DetailsDialog } from "./components/dialog/details";
 import { MovieCardSkeleton } from "./components/movie-card/skeleton";
+import { Models } from "appwrite";
 
 
 function App() {
@@ -15,7 +16,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [moviesList, setMoviesList] = useState<DiscoverMoviesResponse>();
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
-  const [trendingMovies, setTrendingMovies] = useState<[]>([]);
+  const [trendingMovies, setTrendingMovies] = useState<Models.Document[]>([]);
   const [isMovieDetailsDialogOpen, setIsMovieDetailsDialog] = useState(false);
   const [selectMovie, setSelectMovie] = useState<Movie | null>(null)
 
@@ -53,7 +54,11 @@ function App() {
         await updateSearchCount(searchTerm, data.results[0])
       }
     } catch (error) {
-      setErrorMessage(error.message);
+      if (error instanceof Error) {
+        setErrorMessage(error.message);
+      } else {
+        setErrorMessage('An unknown error occurred.');
+      }
     } finally {
       setIsLoading(false);
     }

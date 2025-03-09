@@ -3,9 +3,10 @@ import { Dialog } from './dialog';
 import { MovieServices } from '../../services/moveis.service';
 import { Video } from '../../types/video.types';
 import { IMovieDetails } from '../../types/details-movie';
-import { Spinner } from '../Spinner';
 import { MovieDetailsSkeleton } from './details-skelen';
 import { CONSTANTS } from '../../constants';
+import { toast } from 'sonner';
+import { compactNumberFormat, formatDate, getRating, humamizeRuntime } from '../../helpers/helpers';
 
 interface Props {
     onClose: VoidFunction,
@@ -20,13 +21,12 @@ export function DetailsDialog({ onClose, movieId, movieServices }: Props) {
 
 
     async function getMovieVideo() {
-        // setIsLoadingMovie(true);
         try {
             const data = await movieServices.getVideo(movieId);
             if (data) {
-                setVideo(data.results);
+                setVideo(data);
             } else {
-                console.warn("Nenhum vídeo encontrado para este filme.");
+                toast.warning("Nenhum vídeo encontrado para este filme.");
             }
         } catch (error) {
             console.error("Erro ao buscar vídeo:", error);
@@ -42,49 +42,17 @@ export function DetailsDialog({ onClose, movieId, movieServices }: Props) {
         try {
             const data = await movieServices.getMovieDetails(movieId);
             if (data) {
-                console.log('video:', data);
                 setMoviesDetails(data);
             } else {
-                console.warn("Nenhum detalhe encontrado para este filme.");
+                toast.warning("Nenhum detalhe encontrado para este filme.");
             }
         } catch (error) {
-            console.error("Erro ao buscar detalhes do filme:", error);
+            toast.error("Erro ao buscar detalhes do filme:");
         }
         finally {
             setIsLoadingMovie(false);
         }
     }
-
-
-
-    function getRating(isAdult: boolean) {
-        return isAdult ? 'R' : 'PG-13';
-    }
-
-    function compactNumberFormat(amount: number): string {
-        return new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "USD",
-            notation: "compact",
-            compactDisplay: "short",
-            maximumFractionDigits: 1,
-        }).format(amount);
-    }
-
-    function formatDate(date: string) {
-        return new Intl.DateTimeFormat("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-        }).format(new Date(date));
-    }
-
-
-    const humamizeRuntime = (runtime: number) => {
-        const hours = Math.floor(runtime / 60);
-        const minutes = runtime % 60;
-        return `${hours}h ${minutes}m`;
-    };
 
 
     useEffect(() => {
@@ -101,7 +69,9 @@ export function DetailsDialog({ onClose, movieId, movieServices }: Props) {
                     <div className='flex items-start md:items-center justify-between'>
                         <div>
                             <h4 className='font-bold text-white text-2xl md:text-4xl'>{moviesADetails?.original_title}</h4>
-                            <h5>{moviesADetails?.release_date}  <span>•</span> {getRating(moviesADetails?.adult)} <span>•</span> {humamizeRuntime(moviesADetails?.runtime!)}</h5>
+                            <h5>{moviesADetails?.release_date}  <span>•</span>
+                                {getRating(moviesADetails?.adult)} <span>•</span> {humamizeRuntime(moviesADetails?.runtime!)}
+                            </h5>
                         </div>
                         <div className='flex gap-4 flex-col md:flex-row items-center'>
                             <div className='px-4 py-[3.5px] rounded-[6px] bg-deep-indigo flex items-center gap-1'>
@@ -134,10 +104,12 @@ export function DetailsDialog({ onClose, movieId, movieServices }: Props) {
 
                             <iframe
                                 className="w-full h-full"
-                                src={`${CONSTANTS.ASSETS.video.youtube}/${video[0]?.key}`}
+                                src={`${CONSTANTS.ASSETS.video.youtube}/${video?.find((item => item?.type?.includes('Trailer')))?.key}`}
                                 title="YouTube video player"
                                 allowFullScreen
                             ></iframe>
+
+
                         </div>
                     </section>
 

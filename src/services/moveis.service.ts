@@ -14,14 +14,14 @@ export class MovieServices {
                 throw new Error('Failed to fetch movies');
             }
             const data = await response.json();
-            console.log(data); // Verifique a estrutura dos dados
+            
             return data;
         } catch (error) {
             throw new Error('Error fetching movies. Please try again later.');
         }
     }
 
-    async getVideo(movieId: number): Promise<Video> {
+    async getVideo(movieId: number): Promise<Video[]> {
         const endpoint = `${API_BASE_URL}/movie/${movieId}/videos`;
         try {
             const response = await fetch(endpoint, API_OPTIONS);
@@ -29,8 +29,8 @@ export class MovieServices {
                 throw new Error('Failed to fetch movie video');
             }
             const data = await response.json();
-            console.log(data); // Verifique a estrutura dos dados
-            return data;
+            
+            return data.results;
         } catch (error) {
             throw new Error('Error fetching movie video. Please try again later.');
         }
