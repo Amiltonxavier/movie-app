@@ -75,7 +75,6 @@ export default function SearchPage() {
                             totalPages={data?.total_pages || 1}
                             pageSize={20}
                             onPageChange={handlePageChange}
-                            onPageSizeChange={() => {}}
                         />
                     </>
                 ) : query ? (

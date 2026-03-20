@@ -34,7 +34,6 @@ export default function Upcoming() {
                         totalPages={movies?.total_pages || 1}
                         pageSize={20}
                         onPageChange={handlePageChange}
-                        onPageSizeChange={() => {}}
                         loading={isLoading}
                     />
                 </>

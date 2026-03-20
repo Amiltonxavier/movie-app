@@ -12,7 +12,7 @@ export function TVShowCard({ movie }: Props) {
 
     return (
         <button
-            onClick={() => navigate(`${CONSTANTS.ROUTERS.watch.replace(':id', String(movie.id))}`)}
+            onClick={() => navigate(`${CONSTANTS.ROUTERS.watchTvShow.replace(':id', String(movie.id))}`)}
             type='button'
             className="group text-left hover:cursor-pointer"
         >

@@ -44,6 +44,18 @@ export const useGetTrendingMovies = (params?: string, enabled = true) =>
     enabled,
   });
 
+export const useGetTrendingMoviesDetails = (movieIds: number[], enabled = true) =>
+  useQuery({
+    queryKey: ["trending-details", movieIds],
+    queryFn: async () => {
+      const results = await Promise.all(
+        movieIds.map(id => movieServices.getOne(id))
+      );
+      return results;
+    },
+    enabled: enabled && movieIds.length > 0,
+  });
+
 export const useGetMovie = (movieId: number, enabled = true) =>
   useQuery({
     queryKey: ["movie", movieId],

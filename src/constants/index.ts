@@ -47,9 +47,30 @@ const SORT_OPTIONS_TV_SHOW = [
   { value: "original_title.desc", label: "Título (Z-A)" },
 ];
 
+const TV_STATUS_OPTIONS = [
+  { value: "0", label: "Retroceder" },
+  { value: "1", label: "Em preparação" },
+  { value: "2", label: "Em andamento" },
+  { value: "3", label: "Em pausa" },
+  { value: "4", label: "Cancelada" },
+  { value: "5", label: "Encerrada" },
+];
+
+const TV_TYPE_OPTIONS = [
+  { value: "0", label: "Normal" },
+  { value: "1", label: "Série animada" },
+  { value: "2", label: "Documentário" },
+  { value: "3", label: "Notícias" },
+  { value: "4", label: "Minissérie" },
+  { value: "5", label: "Especial" },
+  { value: "6", label: "Telessérie" },
+];
+
 export const CONSTANTS = {
   ASSETS,
   ROUTERS,
   SORT_OPTIONS_MOVIE,
   SORT_OPTIONS_TV_SHOW,
+  TV_STATUS_OPTIONS,
+  TV_TYPE_OPTIONS,
 };

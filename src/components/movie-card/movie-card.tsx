@@ -34,7 +34,7 @@ export function MovieCard({ movie }: MovieCardProps) {
                     </div>
                 </div>
             </div>
-            <h3 className="font-medium truncate">{movie.title}</h3>
+            <h3 className="font-medium truncate">{movie.title ?? movie.original_title}</h3>
             <div className="flex items-center gap-3 text-sm text-slate-400">
                 <span className="flex items-center gap-1">
                     <Star className="w-3 h-3 text-yellow-400 fill-yellow-400" />

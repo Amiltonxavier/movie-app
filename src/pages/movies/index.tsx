@@ -89,9 +89,8 @@ export default function Movies() {
                 <h1 className="text-3xl font-bold">Filmes</h1>
                 <button
                     onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-lg transition ${
-                        showAdvancedFilters ? 'bg-purple-600 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
-                    }`}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-lg transition ${showAdvancedFilters ? 'bg-purple-600 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                        }`}
                 >
                     <Filter className="w-4 h-4" />
                     Filtros Avançados
@@ -256,7 +255,6 @@ export default function Movies() {
                         totalPages={movies?.total_pages || 1}
                         pageSize={20}
                         onPageChange={handlePageChange}
-                        onPageSizeChange={() => { }}
                         loading={isLoading}
                     />
                 </>
