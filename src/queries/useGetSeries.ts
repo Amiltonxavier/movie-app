@@ -1,10 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 import { seriesServices } from "../services/series.service";
+import type { DiscoverTVFilters } from "../types/discover-tv.types";
 
 export const useGetSeries = (page = 1, sortBy = "popularity.desc", genreId?: number, enabled = true) =>
   useQuery({
     queryKey: ["series", page, sortBy, genreId],
     queryFn: async () => await seriesServices.list(page, sortBy, genreId),
+    enabled,
+  });
+
+export const useDiscoverSeries = (filters: DiscoverTVFilters, enabled = true) =>
+  useQuery({
+    queryKey: ["discover-series", filters],
+    queryFn: async () => await seriesServices.discover(filters),
     enabled,
   });
 

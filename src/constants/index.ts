@@ -35,10 +35,16 @@ const SORT_OPTIONS_MOVIE = [
 ];
 
 const SORT_OPTIONS_TV_SHOW = [
-  { value: "popular", label: "Populares" },
-  { value: "top_rated", label: "Mais votados" },
-  { value: "airing_today", label: "Exibindo hoje" },
-  { value: "on_the_air", label: "No ar" },
+  { value: "popularity.desc", label: "Popularidade (maior)" },
+  { value: "popularity.asc", label: "Popularidade (menor)" },
+  { value: "first_air_date.desc", label: "Data de estreia (recente)" },
+  { value: "first_air_date.asc", label: "Data de estreia (antiga)" },
+  { value: "vote_average.desc", label: "Avaliação (maior)" },
+  { value: "vote_average.asc", label: "Avaliação (menor)" },
+  { value: "vote_count.desc", label: "Votos (mais)" },
+  { value: "vote_count.asc", label: "Votos (menos)" },
+  { value: "original_title.asc", label: "Título (A-Z)" },
+  { value: "original_title.desc", label: "Título (Z-A)" },
 ];
 
 export const CONSTANTS = {
