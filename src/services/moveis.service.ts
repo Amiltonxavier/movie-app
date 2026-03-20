@@ -1,52 +1,102 @@
-import { API_BASE_URL, API_OPTIONS } from "../api/api"
-import { IMovieDetails } from "../types/details-movie";
-import { DiscoverMoviesResponse } from "../types/movies.types";
-import { Video } from "../types/video.types";
+import { API } from "../api/axios";
+import type { IMovieDetails } from "../types/details-movie";
+import type { DiscoverMoviesResponse } from "../types/movies.types";
+import type { Video } from "../types/video.types";
 
+class MovieServices {
+  async list(
+    query?: string,
+    page = 1,
+    sortBy = "popular",
+  ): Promise<DiscoverMoviesResponse> {
+    const endpoint = query
+      ? "/search/movie"
+      : `/movie${sortBy ? `/${sortBy}` : ""}`;
+    const params = query
+      ? { query, language: "pt-BR", page }
+      : { language: "pt-BR", page };
 
-export class MovieServices {
-
-    async list(query?: string): Promise<DiscoverMoviesResponse> {
-        const endpoint = query ? `${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}` : `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`; 
-        try {
-            const response = await fetch(endpoint, API_OPTIONS);
-            if (!response.ok) {
-                throw new Error('Failed to fetch movies');
-            }
-            const data = await response.json();
-            
-            return data;
-        } catch (error) {
-            throw new Error('Error fetching movies. Please try again later.');
-        }
+    try {
+      const response = await API.get(endpoint, { params });
+      return response.data;
+    } catch (error) {
+      throw new Error("Erro ao buscar filmes. Tente novamente mais tarde.");
     }
+  }
 
-    async getVideo(movieId: number): Promise<Video[]> {
-        const endpoint = `${API_BASE_URL}/movie/${movieId}/videos`;
-        try {
-            const response = await fetch(endpoint, API_OPTIONS);
-            if (!response.ok) {
-                throw new Error('Failed to fetch movie video');
-            }
-            const data = await response.json();
-            
-            return data.results;
-        } catch (error) {
-            throw new Error('Error fetching movie video. Please try again later.');
-        }
+  async listByGenre(
+    genreId: number,
+    page = 1,
+    sortBy = "popularity.desc",
+  ): Promise<DiscoverMoviesResponse> {
+    try {
+      const response = await API.get("/discover/movie", {
+        params: {
+          with_genres: genreId,
+          sort_by: sortBy,
+          language: "pt-BR",
+          page,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error(
+        "Erro ao buscar filmes por gênero. Tente novamente mais tarde.",
+      );
     }
+  }
 
-    async getMovieDetails(movieId: number): Promise<IMovieDetails | void> {
-        const endpoint = `${API_BASE_URL}/movie/${movieId}`;
-        try {
-            const response = await fetch(endpoint, API_OPTIONS);
-            if (!response.ok) {
-                throw new Error('Failed to fetch movie details');
-            }
-            const data = await response.json();
-            return data;
-        } catch (error) {
-            throw new Error('Error fetching movie details. Please try again later.');
-        }
+  async getVideo(movieId: number): Promise<Video[]> {
+    try {
+      const response = await API.get(`/movie/${movieId}/videos`, {
+        params: { language: "pt-BR" },
+      });
+      return response.data.results;
+    } catch (error) {
+      throw new Error(
+        "Erro ao buscar vídeos do filme. Tente novamente mais tarde.",
+      );
     }
+  }
+
+  async getOne(movieId: number): Promise<IMovieDetails> {
+    try {
+      const response = await API.get(`/movie/${movieId}`, {
+        params: { language: "pt-BR" },
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error(
+        "Erro ao buscar detalhes do filme. Tente novamente mais tarde.",
+      );
+    }
+  }
+
+  async getUpcoming(page = 1): Promise<DiscoverMoviesResponse> {
+    try {
+      const response = await API.get("/movie/upcoming", {
+        params: { language: "pt-BR", page },
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error(
+        "Erro ao buscar filmes em cartaz. Tente novamente mais tarde.",
+      );
+    }
+  }
+
+  async getSimilar(movieId: number, page = 1): Promise<DiscoverMoviesResponse> {
+    try {
+      const response = await API.get(`/movie/${movieId}/similar`, {
+        params: { language: "pt-BR", page },
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error(
+        "Erro ao buscar filmes similares. Tente novamente mais tarde.",
+      );
+    }
+  }
 }
+
+export const movieServices = new MovieServices();

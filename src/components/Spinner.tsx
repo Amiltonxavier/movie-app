@@ -1,7 +1,13 @@
+export function Spinner({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
+    const sizeClasses = {
+        sm: "w-5 h-5",
+        md: "w-8 h-8",
+        lg: "w-12 h-12",
+    }
 
-
-export function Spinner() {
-  return (
-    <img src="/tube-spinner.svg" alt="Loading..." />
-  )
+    return (
+        <div className="flex items-center justify-center p-8">
+            <div className={`${sizeClasses[size]} border-4 border-slate-700 border-t-purple-500 rounded-full animate-spin`} />
+        </div>
+    )
 }

@@ -1,13 +1,13 @@
 import { Play, Star } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
-import type { Movie } from '../../types/movies.types'
 import { CONSTANTS } from '../../constants'
+import { ITVShow } from '../../types/series.types'
 
-interface MovieCardProps {
-    movie: Movie
+interface Props {
+    movie: ITVShow
 }
 
-export function MovieCard({ movie }: MovieCardProps) {
+export function TVShowCard({ movie }: Props) {
     const navigate = useNavigate()
 
     return (
@@ -22,7 +22,7 @@ export function MovieCard({ movie }: MovieCardProps) {
                         ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
                         : '/no-movie.png'
                     }
-                    alt={movie.title}
+                    alt={movie.name}
                     width={300}
                     height={400}
                     className="object-cover w-full aspect-[2/3]"
@@ -34,7 +34,7 @@ export function MovieCard({ movie }: MovieCardProps) {
                     </div>
                 </div>
             </div>
-            <h3 className="font-medium truncate">{movie.title}</h3>
+            <h3 className="font-medium truncate">{movie.original_name}</h3>
             <div className="flex items-center gap-3 text-sm text-slate-400">
                 <span className="flex items-center gap-1">
                     <Star className="w-3 h-3 text-yellow-400 fill-yellow-400" />

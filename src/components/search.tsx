@@ -9,9 +9,9 @@ type Props = {
 export function Search({ searchTerm, setSearchTerm }: Props) {
 
 
-    function handleChange (event:ChangeEvent<HTMLInputElement> ){
-           event.preventDefault
-            setSearchTerm(event.target.value)
+    function handleChange(event: ChangeEvent<HTMLInputElement>) {
+        event.preventDefault
+        setSearchTerm(event.target.value)
     }
 
     return (
@@ -21,7 +21,7 @@ export function Search({ searchTerm, setSearchTerm }: Props) {
                 <input
                     type="text"
                     name=""
-                    placeholder='Search through thousands of movie'
+                    placeholder='Pesquise entre milhares de filmes'
                     id=""
                     value={searchTerm}
                     onChange={handleChange}
