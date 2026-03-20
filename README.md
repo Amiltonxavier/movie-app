@@ -31,7 +31,15 @@ Aplicação web para descobriu e navegação de filmes e séries, utilizando a A
 
 ## Capturas de Tela
 
-As imagens da aplicação estão disponíveis em `/public/img/`.
+![Hero](public/img/hero1.png)
+
+![Filmes](public/img/movie.png)
+
+![Séries](public/img/tv-show.png)
+
+![Busca](public/img/search.png)
+
+![Player](public/img/watch-movie.png)
 
 ## Pré-requisitos
 
