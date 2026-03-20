@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { movieServices } from "../services/moveis.service";
 import { getTrendingMovie } from "../lib/appwrite";
+import type { DiscoverMovieFilters } from "../types/discover-movie.types";
 
 export const useGetMovies = (
   params?: string,
@@ -11,6 +12,13 @@ export const useGetMovies = (
   useQuery({
     queryKey: ["movie", params, page, sortBy],
     queryFn: async () => await movieServices.list(params, page, sortBy),
+    enabled,
+  });
+
+export const useDiscoverMovies = (filters: DiscoverMovieFilters, enabled = true) =>
+  useQuery({
+    queryKey: ["discover-movies", filters],
+    queryFn: async () => await movieServices.discover(filters),
     enabled,
   });
 

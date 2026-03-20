@@ -20,10 +20,18 @@ const ROUTERS = {
 };
 
 const SORT_OPTIONS_MOVIE = [
-  { value: "popular", label: "Populares" },
-  { value: "top_rated", label: "Mais bem avaliados" },
-  { value: "upcoming", label: "Em breve" },
-  { value: "now_playing", label: "Em cartaz" },
+  { value: "popularity.desc", label: "Popularidade (maior)" },
+  { value: "popularity.asc", label: "Popularidade (menor)" },
+  { value: "release_date.desc", label: "Data de lançamento (recente)" },
+  { value: "release_date.asc", label: "Data de lançamento (antiga)" },
+  { value: "vote_average.desc", label: "Avaliação (maior)" },
+  { value: "vote_average.asc", label: "Avaliação (menor)" },
+  { value: "vote_count.desc", label: "Votos (mais)" },
+  { value: "vote_count.asc", label: "Votos (menos)" },
+  { value: "original_title.asc", label: "Título (A-Z)" },
+  { value: "original_title.desc", label: "Título (Z-A)" },
+  { value: "revenue.desc", label: "Bilheteria (maior)" },
+  { value: "revenue.asc", label: "Bilheteria (menor)" },
 ];
 
 const SORT_OPTIONS_TV_SHOW = [

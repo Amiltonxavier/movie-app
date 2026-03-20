@@ -1,0 +1,51 @@
+export type SortByOption =
+  | "popularity.asc"
+  | "popularity.desc"
+  | "release_date.asc"
+  | "release_date.desc"
+  | "vote_average.asc"
+  | "vote_average.desc"
+  | "vote_count.asc"
+  | "vote_count.desc"
+  | "original_title.asc"
+  | "original_title.desc"
+  | "revenue.asc"
+  | "revenue.desc";
+
+export interface DiscoverMovieFilters {
+  page?: number;
+  sort_by?: SortByOption;
+  with_genres?: string;
+  without_genres?: string;
+  with_cast?: string;
+  with_crew?: string;
+  with_companies?: string;
+  without_companies?: string;
+  with_watch_providers?: string;
+  watch_region?: string;
+  with_watch_monetization_types?: string;
+  certification_country?: string;
+  certification?: string;
+  certification_gte?: string;
+  certification_lte?: string;
+  include_adult?: boolean;
+  include_video?: boolean;
+  language?: string;
+  primary_release_year?: number;
+  primary_release_date_gte?: string;
+  primary_release_date_lte?: string;
+  release_date_gte?: string;
+  release_date_lte?: string;
+  region?: string;
+  vote_average_gte?: number;
+  vote_average_lte?: number;
+  vote_count_gte?: number;
+  vote_count_lte?: number;
+  with_runtime_gte?: number;
+  with_runtime_lte?: number;
+  with_original_language?: string;
+  with_keywords?: string;
+  without_keywords?: string;
+  with_people?: string;
+  year?: number;
+}
