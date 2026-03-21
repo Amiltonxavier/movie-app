@@ -3,6 +3,7 @@ import type { IMovieDetails } from "../types/details-movie";
 import type { DiscoverMoviesResponse } from "../types/movies.types";
 import type { DiscoverMovieFilters } from "../types/discover-movie.types";
 import type { Video } from "../types/video.types";
+import type { MultiSearchResponse } from "../types/index.d";
 
 class MovieServices {
   async list(
@@ -144,6 +145,17 @@ class MovieServices {
       throw new Error(
         "Erro ao buscar filmes similares. Tente novamente mais tarde.",
       );
+    }
+  }
+
+  async searchMulti(query: string, page = 1): Promise<MultiSearchResponse> {
+    try {
+      const response = await API.get("/search/multi", {
+        params: { query, language: "pt-BR", page },
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error("Erro ao buscar. Tente novamente mais tarde.");
     }
   }
 }

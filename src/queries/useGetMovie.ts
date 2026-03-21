@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { movieServices } from "../services/moveis.service";
 import { getTrendingMovie } from "../lib/appwrite";
 import type { DiscoverMovieFilters } from "../types/discover-movie.types";
+import type { MultiSearchResponse } from "../types/index.d";
 
 export const useGetMovies = (
   params?: string,
@@ -86,4 +87,15 @@ export const useGetSimilarMovies = (
     queryKey: ["similar-movies", movieId, page],
     queryFn: async () => await movieServices.getSimilar(movieId, page),
     enabled,
+  });
+
+export const useSearchMulti = (
+  query: string,
+  page = 1,
+  enabled = true,
+) =>
+  useQuery<MultiSearchResponse>({
+    queryKey: ["search-multi", query, page],
+    queryFn: async () => await movieServices.searchMulti(query, page),
+    enabled: enabled && query.length > 0,
   });

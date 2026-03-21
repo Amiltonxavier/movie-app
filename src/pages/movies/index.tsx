@@ -84,7 +84,7 @@ export default function Movies() {
     const hasActiveFilters = genreId || Object.values(filters).some(v => v !== undefined && v !== 'US' && v !== 100 && v !== 240)
 
     return (
-        <div className="container mx-auto px-4 py-8">
+        <div className="px-8 py-8">
             <div className="flex items-center justify-between mb-4">
                 <h1 className="text-3xl font-bold">Filmes</h1>
                 <button

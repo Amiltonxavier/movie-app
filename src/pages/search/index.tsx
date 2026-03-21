@@ -1,10 +1,12 @@
 import { Search } from "lucide-react"
 import React from "react"
 import { useSearchParams } from "react-router-dom"
-import { useGetMovies } from "../../queries/useGetMovie"
+import { useSearchMulti } from "../../queries/useGetMovie"
 import { MovieCard } from "../../components/movie-card/movie-card"
+import { TVShowCard } from "../../components/tv-show-card"
 import { SkeletonGrid } from "../../components/skeleton-grid"
 import { Pagination } from "../../components/pagination"
+import type { MultiSearchItem } from "../../types/index.d"
 
 export default function SearchPage() {
     const [searchParams, setSearchParams] = useSearchParams()
@@ -12,7 +14,7 @@ export default function SearchPage() {
     const page = parseInt(searchParams.get("page") || "1", 10)
     const [searchQuery, setSearchQuery] = React.useState(query)
 
-    const { data, isLoading } = useGetMovies(query, page)
+    const { data, isLoading } = useSearchMulti(query, page)
 
     React.useEffect(() => {
         setSearchQuery(query)
@@ -29,6 +31,9 @@ export default function SearchPage() {
     }
 
     const results = data?.results ?? []
+    const movies = results.filter((item: MultiSearchItem) => item.media_type === 'movie')
+    const tvShows = results.filter((item: MultiSearchItem) => item.media_type === 'tv')
+    const totalResults = data?.total_results ?? 0
 
     return (
         <div className="container mx-auto px-4 py-8">
@@ -40,7 +45,7 @@ export default function SearchPage() {
                             <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                             <input
                                 type="text"
-                                placeholder="Pesquisar filmes..."
+                                placeholder="Pesquisar filmes e séries..."
                                 className="pl-10 py-2 px-4 rounded-lg border border-slate-700 bg-slate-800 w-full focus:outline-none focus:border-purple-500 transition"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -57,19 +62,66 @@ export default function SearchPage() {
 
                 {query && (
                     <p className="text-slate-400">
-                        {results.length} resultados para "{query}"
+                        {totalResults} resultados para "{query}"
                     </p>
                 )}
 
                 {isLoading ? (
                     <SkeletonGrid />
-                ) : results.length > 0 ? (
+                ) : totalResults > 0 ? (
                     <>
-                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-                            {results.map((item) => (
-                                <MovieCard key={item.id} movie={item} />
-                            ))}
-                        </div>
+                        {movies.length > 0 && (
+                            <section>
+                                <h2 className="text-2xl font-bold mb-4">Filmes ({movies.length})</h2>
+                                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                                    {movies.map((item: MultiSearchItem) => (
+                                        <MovieCard 
+                                            key={item.id} 
+                                            movie={{
+                                                id: item.id,
+                                                poster_path: item.poster_path ?? undefined,
+                                                title: item.title || item.original_title || '',
+                                                original_title: item.original_title || '',
+                                                overview: item.overview || '',
+                                                release_date: item.release_date || '',
+                                                vote_average: item.vote_average,
+                                                original_language: item.original_language || '',
+                                            }} 
+                                        />
+                                    ))}
+                                </div>
+                            </section>
+                        )}
+
+                        {tvShows.length > 0 && (
+                            <section>
+                                <h2 className="text-2xl font-bold mb-4">Séries ({tvShows.length})</h2>
+                                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                                    {tvShows.map((item: MultiSearchItem) => (
+                                        <TVShowCard 
+                                            key={item.id} 
+                                            movie={{
+                                                adult: item.adult || false,
+                                                backdrop_path: item.backdrop_path ?? null,
+                                                genre_ids: item.genre_ids || [],
+                                                id: item.id,
+                                                origin_country: [],
+                                                original_language: item.original_language || '',
+                                                original_name: item.original_name || '',
+                                                overview: item.overview || '',
+                                                popularity: item.popularity || 0,
+                                                poster_path: item.poster_path ?? null,
+                                                first_air_date: item.first_air_date || '',
+                                                name: item.name || item.original_name || '',
+                                                vote_average: item.vote_average,
+                                                vote_count: item.vote_count,
+                                            }} 
+                                        />
+                                    ))}
+                                </div>
+                            </section>
+                        )}
+
                         <Pagination
                             page={page}
                             totalPages={data?.total_pages || 1}
@@ -86,7 +138,7 @@ export default function SearchPage() {
                 ) : (
                     <div className="flex flex-col items-center justify-center py-16 text-center">
                         <Search className="h-16 w-16 text-slate-600 mb-4" />
-                        <h3 className="text-xl font-medium">Busque seus filmes favoritos</h3>
+                        <h3 className="text-xl font-medium">Busque seus filmes e séries favoritos</h3>
                         <p className="text-slate-500 mt-2">Digite um termo para começar.</p>
                     </div>
                 )}

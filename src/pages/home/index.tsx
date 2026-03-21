@@ -43,7 +43,7 @@ export default function Home() {
                 )}
 
                 {isPopularLoading ? (
-                    <CarouselSkeleton title="🎬 Filmes Populares" />
+                    <CarouselSkeleton title="Filmes Populares" />
                 ) : (
                     <MovieCarousel
                         title="🎬 Filmes Populares"
@@ -63,10 +63,10 @@ export default function Home() {
                 )}
 
                 {isTopRatedSeriesLoading ? (
-                    <CarouselSkeleton title="📺 Séries Mais bem Avaliadas" />
+                    <CarouselSkeleton title="Séries Mais bem Avaliadas" />
                 ) : (
                     <TVShowCarousel
-                        title="📺 Séries Mais bem Avaliadas"
+                        title="Séries Mais bem Avaliadas"
                         shows={topRatedSeries?.results?.slice(0, 10) || []}
                         linkToSeeAll={CONSTANTS.ROUTERS.series}
                     />

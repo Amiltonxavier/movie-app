@@ -35,6 +35,7 @@ export function TVShowCarousel({ title, shows, linkToSeeAll }: TVShowCarouselPro
           opts={{
             align: "start",
             loop: true,
+            dragFree: true,
           }}
           className="w-full"
         >
