@@ -34,8 +34,13 @@ export function Nav() {
     return (
         <header className="sticky top-0 z-50 backdrop-blur-md bg-black/70 px-4 md:px-8 py-3 flex items-center justify-between">
             <div className="flex items-center gap-4 md:gap-8">
-                <img src="/logo.png" alt="Logo" className="w-10 h-10 md:w-12 md:h-12" />
-                
+
+                <Link
+                    to={"/"}
+                >
+                    <img src="/logo.png" alt="Logo" className="w-10 h-10 md:w-12 md:h-12" />
+                </Link>
+
                 <button
                     type="button"
                     onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -47,12 +52,11 @@ export function Nav() {
 
                 <nav className="hidden md:flex gap-6">
                     {navLinks.map(link => (
-                        <Link 
-                            key={link.to} 
-                            to={link.to} 
-                            className={`hover:text-purple-400 transition text-sm ${
-                                isActive(link.to) ? 'text-purple-400 font-medium' : 'text-white'
-                            }`}
+                        <Link
+                            key={link.to}
+                            to={link.to}
+                            className={`hover:text-purple-400 transition text-sm ${isActive(link.to) ? 'text-purple-400 font-medium' : 'text-white'
+                                }`}
                         >
                             {link.label}
                         </Link>
@@ -79,13 +83,12 @@ export function Nav() {
                 <div className="absolute top-full left-0 right-0 bg-black/95 backdrop-blur-md md:hidden border-t border-slate-800">
                     <nav className="flex flex-col p-4 gap-2">
                         {navLinks.map(link => (
-                            <Link 
-                                key={link.to} 
-                                to={link.to} 
+                            <Link
+                                key={link.to}
+                                to={link.to}
                                 onClick={() => setMobileMenuOpen(false)}
-                                className={`px-4 py-3 rounded-lg hover:bg-slate-800 transition text-sm ${
-                                    isActive(link.to) ? 'text-purple-400 font-medium bg-slate-800/50' : 'text-white'
-                                }`}
+                                className={`px-4 py-3 rounded-lg hover:bg-slate-800 transition text-sm ${isActive(link.to) ? 'text-purple-400 font-medium bg-slate-800/50' : 'text-white'
+                                    }`}
                             >
                                 {link.label}
                             </Link>

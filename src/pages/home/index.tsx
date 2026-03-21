@@ -46,7 +46,7 @@ export default function Home() {
                     <CarouselSkeleton title="Filmes Populares" />
                 ) : (
                     <MovieCarousel
-                        title="🎬 Filmes Populares"
+                        title="Filmes Populares"
                         movies={popularMovies?.results?.slice(0, 10) || []}
                         linkToSeeAll={CONSTANTS.ROUTERS.movies}
                     />

@@ -13,7 +13,7 @@ export default function Watch() {
 
     const isMovie = !!movieData?.title;
 
-    const { data: movieVideo } = useGetVideo(Number(id), isMovie);
+    const { data: movieVideo, isLoading: isLoadingVideo } = useGetVideo(Number(id), isMovie);
     const { data: similar } = useGetSimilarMovies(Number(id));
 
     const video = movieVideo;
@@ -121,9 +121,19 @@ export default function Watch() {
 
             <div className='w-full px-4 md:px-8 lg:px-16 py-8'>
                 <div className="">
-                    <div className='w-full aspect-video md:h-[500px] lg:h-[700px] rounded-xl md:rounded-2xl overflow-hidden mb-8'>
-                        <Player video={video} />
-                    </div>
+                    {
+                        isLoadingVideo && !video ?
+                            <div className='w-full flex flex-col justify-center items-center aspect-video md:h-[500px] lg:h-[700px] rounded-xl md:rounded-2xl overflow-hidden mb-8'>
+                                <Spinner />
+                            </div>
+                            :
+                            <div className='w-full aspect-video md:h-[500px] lg:h-[700px] rounded-xl md:rounded-2xl overflow-hidden mb-8'>
+                                {<Player video={video} />}
+                            </div>
+
+
+                    }
+
 
                     <div className='mb-12'>
                         <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">Mais Detalhes</h2>

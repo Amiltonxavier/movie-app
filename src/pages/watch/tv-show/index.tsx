@@ -13,7 +13,7 @@ export default function WatchTvShow() {
     const [showMore, setShowMore] = useState(false)
 
     const { data: seriesData, isLoading: seriesLoading } = useGetSeriesDetails(Number(id)) as any
-    const { data: seriesVideo } = useGetSeriesVideo(Number(id), !!seriesData)
+    const { data: seriesVideo, isLoading: isLoadingVideo } = useGetSeriesVideo(Number(id), !!seriesData)
     const { data: seasonData } = useGetSeriesSeason(Number(id), selectedSeason, !!seriesData)
     const { data: similar } = useGetSimilarSeries(Number(id))
 
@@ -123,9 +123,17 @@ export default function WatchTvShow() {
 
             <div className='w-full px-4 md:px-8 lg:px-16 py-8'>
                 <div className="">
-                    <div className='w-full aspect-video md:h-[500px] lg:h-[700px] rounded-xl md:rounded-2xl overflow-hidden mb-8'>
-                        <Player video={seriesVideo} />
-                    </div>
+
+                    {
+                        isLoadingVideo && !seriesVideo ?
+                            <div className='w-full flex flex-col justify-center items-center aspect-video md:h-[500px] lg:h-[700px] rounded-xl md:rounded-2xl overflow-hidden mb-8'>
+                                <Spinner />
+                            </div>
+                            :
+                            <div className='w-full aspect-video md:h-[500px] lg:h-[700px] rounded-xl md:rounded-2xl overflow-hidden mb-8'>
+                                {<Player video={seriesVideo} />}
+                            </div>
+                    }
 
                     <div className='mb-12'>
                         <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">Mais Detalhes</h2>

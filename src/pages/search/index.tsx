@@ -36,7 +36,7 @@ export default function SearchPage() {
     const totalResults = data?.total_results ?? 0
 
     return (
-        <div className="container mx-auto px-4 py-8">
+        <div className="px-8 py-8">
             <div className="flex flex-col space-y-8">
                 <div className="flex flex-col space-y-4">
                     <h1 className="text-3xl font-bold">Pesquisa</h1>
@@ -75,8 +75,8 @@ export default function SearchPage() {
                                 <h2 className="text-2xl font-bold mb-4">Filmes ({movies.length})</h2>
                                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
                                     {movies.map((item: MultiSearchItem) => (
-                                        <MovieCard 
-                                            key={item.id} 
+                                        <MovieCard
+                                            key={item.id}
                                             movie={{
                                                 id: item.id,
                                                 poster_path: item.poster_path ?? undefined,
@@ -86,7 +86,7 @@ export default function SearchPage() {
                                                 release_date: item.release_date || '',
                                                 vote_average: item.vote_average,
                                                 original_language: item.original_language || '',
-                                            }} 
+                                            }}
                                         />
                                     ))}
                                 </div>
@@ -98,8 +98,8 @@ export default function SearchPage() {
                                 <h2 className="text-2xl font-bold mb-4">Séries ({tvShows.length})</h2>
                                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
                                     {tvShows.map((item: MultiSearchItem) => (
-                                        <TVShowCard 
-                                            key={item.id} 
+                                        <TVShowCard
+                                            key={item.id}
                                             movie={{
                                                 adult: item.adult || false,
                                                 backdrop_path: item.backdrop_path ?? null,
@@ -115,7 +115,7 @@ export default function SearchPage() {
                                                 name: item.name || item.original_name || '',
                                                 vote_average: item.vote_average,
                                                 vote_count: item.vote_count,
-                                            }} 
+                                            }}
                                         />
                                     ))}
                                 </div>
