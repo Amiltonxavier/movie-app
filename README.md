@@ -1,45 +1,70 @@
-# Movie App
+# CineFinder - Catálogo de Filmes e Séries
 
-Aplicação web para descobriu e navegação de filmes e séries, utilizando a API do TMDB (The Movie Database). Permite explorar filmes populares, séries de TV, próximos lançamentos, busca de títulos e gerenciamento de watchlist.
+Aplicação web completa para descoberta, navegação e gerenciamento de filmes e séries de TV, construída com React e integrada à API do TMDB (The Movie Database). O projeto oferece uma experiência cinematográfica imersiva com player nativo, sistema de watchlist pessoal e interface responsiva para todos os dispositivos.
 
 ## Funcionalidades
 
-- **Home**: Exibe filmes em destaque, tendência do dia/semana e carrosséis de categorias
-- **Filmes**: Lista de filmes com filtros por gênero, ordenação e paginação
-- **Séries**: Lista de séries de TV com filtros por gênero, status, tipo e ordenação
-- **Próximos Lançamentos**: Filmes que serão lançados em breve
-- **Busca**: Pesquisa de filmes e séries por título
-- **Detalhes**: Informações completas sobre títulos (sinopse, elenco, vídeos, notas)
-- **Player**: Reprodução de trailers e vídeos de prévia
-- **Watchlist**: Lista pessoal de títulos salvos (usando Appwrite)
-- **Interface responsiva**: Adaptada para desktop e dispositivos móveis
+### Navegação e Descoberta
+- **Home**: Exibe filmes em destaque com backdrop hero, tendências do dia/semana e carrosséis interativos de categorias (populares, mais bem avaliados, em cartaz, próximos lançamentos)
+- **Filmes**: Catálogo completo com filtros por gênero, ano, país, ordenação (popularidade, nota, data), paginação e infinite scroll
+- **Séries**: Catálogo de séries com filtros por gênero, status (em exibição, finalizada, planejada), tipo (documentário, reality, scripted) e ordenação
+- **Próximos Lançamentos**: Filmes que serão lançados brevemente com contagem regressiva
 
-## Tecnologias
+### Busca Inteligente
+- **Busca multi-tipo**: Pesquisa simultânea de filmes e séries em uma única consulta
+- **Resultados separados**: Exibição organizada por categoria (Filmes e Séries) com contagem individual
+- **Paginação**: Navegação entre páginas de resultados
 
-- **React 18** - Biblioteca principal
-- **TypeScript** - Tipagem estática
-- **Vite** - Build tool e servidor de desenvolvimento
-- **React Router v7** - Roteamento
-- **TanStack Query** - Gerenciamento de estado e cache de requisições
-- **TailwindCSS v4** - Estilização
-- **Appwrite** - Backend para persistência da watchlist
-- **TMDB API** - Fonte de dados de filmes e séries
-- **Embla Carousel** - Carrosséis de navegação
-- **React Player** - Reprodução de vídeos
-- **Lucide React** - Ícones
-- **Sonner** - Notificações toast
+### Página de Detalhes Cinematográfica
+- **Hero backdrop**: Background dinâmico com gradientes e blur baseados na imagem do título
+- **Informações completas**: Sinopse expandível, nota IMDb/TMDB, gêneros, idioma, duração
+- **Elenco**: Carrossel horizontal com fotos e nomes dos atores
+- **Vídeos**: Player nativo para trailers e teasers com seletor de vídeos
+- **Mais detalhes**: Cards com informações de produção, orçamento, bilheteria, redes
+- **Sugestões**: Lista de títulos similares para descoberta
 
-## Capturas de Tela
+### Player de Vídeo
+- Reprodução de trailers e vídeos de prévia via YouTube/Vimeo
+- Controles de play/pause, mute, fullscreen
+- Seletor de vídeos alternativos
+- Autoplay no hover com delay configurável
+- Overlays cinematográficos (vignette, gradientes)
 
-![Hero](public/img/hero1.png)
+### Sistema de Watchlist
+- Adicionar/remover títulos da lista pessoal
+- Sincronização com backend Appwrite
+- Persistência de dados na nuvem
+- Notificações toast para feedback de ações
 
-![Filmes](public/img/movie.png)
+### Interface e UX
+- **Tema escuro**: Design premium otimizado para consumo de mídia
+- **Responsividade**: Adaptada para desktop, tablet e mobile
+- **Animações suaves**: Transições e hover effects com carrosséis drag-free
+- **Performance**: Cache inteligente com TanStack Query, lazy loading de imagens
+- **Acessibilidade**: Navegação por teclado, atributos ARIA
 
-![Séries](public/img/tv-show.png)
+## Stack Tecnológica
 
-![Busca](public/img/search.png)
+### Frontend
+- **React 18** - Framework principal com Concurrent Features
+- **TypeScript** - Tipagem estática para maior segurança
+- **Vite** - Build tool ultrarrápido com HMR
+- **TailwindCSS v4** - Framework CSS utility-first com designs responsivos
 
-![Player](public/img/watch-movie.png)
+### Estado e Dados
+- **TanStack Query v5** - Gerenciamento de cache, paginação e sincronização
+- **React Router v7** - Roteamento declarativo com nested routes
+
+### Integrações
+- **TMDB API v3** - Base de dados completa de filmes, séries e celebridades
+- **Appwrite** - Backend BaaS para persistência da watchlist
+
+### Bibliotecas UI
+- **Embla Carousel** - Carrosséis touch-friendly e drag-free
+- **React Player** - Player universal para YouTube/Vimeo/Daily Motion
+- **Lucide React** - Ícones consistentes e minimalistas
+- **Sonner** - Notificações toast elegantes
+- **React Use** - Hooks utilitários (debounce, localStorage, etc.)
 
 ## Pré-requisitos
 
@@ -134,26 +159,31 @@ npm run preview
 
 ```
 src/
-├── api/           # Configuração do cliente Axios
+├── api/           # Cliente Axios com interceptors
 ├── components/    # Componentes reutilizáveis
 │   ├── dialog/    # Modais de detalhes e tendências
-│   ├── movie-card/
-│   ├── nav.tsx   # Navegação principal
+│   ├── movie-card/    # Card de filme
+│   ├── tv-show-card/ # Card de série
+│   ├── movie-carousel/   # Carrossel de filmes
+│   ├── tv-show-carousel/ # Carrossel de séries
+│   ├── nav.tsx    # Navegação principal
+│   ├── player.tsx # Player de vídeo
 │   └── ...
-├── constants/     # Constantes (rotas, opções de filtro)
-├── hooks/        # Custom hooks
+├── constants/     # Rotas, opções de filtro, configurações
+├── hooks/        # Custom hooks (debounce, localStorage)
 ├── lib/          # Utilitários (Appwrite, query client)
-├── pages/        # Páginas/Rotas da aplicação
-│   ├── home/
-│   ├── movies/
-│   ├── series/
-│   ├── search/
-│   ├── upcoming/
-│   └── watch/
-├── provider/     # Context providers
-├── queries/      # Hooks do TanStack Query
-├── services/     # Serviços de API (filmes, séries)
-└── types/        # Definições TypeScript
+├── pages/        # Páginas da aplicação
+│   ├── home/     # Página inicial
+│   ├── movies/    # Catálogo de filmes
+│   ├── series/   # Catálogo de séries
+│   ├── search/   # Busca multi-tipo
+│   ├── upcoming/ # Próximos lançamentos
+│   ├── watch/    # Detalhes de filme
+│   └── watch/tv-show/ # Detalhes de série
+├── provider/     # Context providers (query, router)
+├── queries/      # Hooks TanStack Query (useGetMovie, useGetSeries, etc)
+├── services/     # Serviços API (filmes, séries, busca)
+└── types/        # Definições TypeScript (interfaces TMDB)
 ```
 
 ## API Reference
@@ -163,11 +193,15 @@ Este projeto utiliza a [TMDB API v3](https://developer.themoviedb.org/docs/getti
 - `/movie/popular` - Filmes populares
 - `/movie/upcoming` - Próximos lançamentos
 - `/movie/now_playing` - Em cartaz
-- `/trending/movie/{time_window}` - Tendências
+- `/trending/movie/{time_window}` - Tendências de filmes
+- `/trending/tv/{time_window}` - Tendências de séries
 - `/tv/popular` - Séries populares
-- `/search/multi` - Busca multitype
-- `/discover/movie` - Descobrir com filtros
+- `/tv/{id}` - Detalhes de série
+- `/search/multi` - Busca multi-tipo (filmes + séries)
+- `/discover/movie` - Descobrir filmes com filtros
 - `/discover/tv` - Descobrir séries com filtros
+- `/{type}/{id}/videos` - Vídeos de um título
+- `/{type}/{id}/credits` - Elenco e crew
 
 ## Licença
 
